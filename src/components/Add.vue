@@ -38,6 +38,7 @@
         <b-form-datepicker
           id="example-datepicker"
           v-model="$v.form.date.$model"
+          :date-disabled-fn="dateDisabled"
           :state="validatedate('date')"
           aria-describedby="date-feedback"
         ></b-form-datepicker>
@@ -124,6 +125,11 @@ export default {
     },
   },
   methods: {
+    dateDisabled(ymd, date) {
+      const weekday = date.getDay()
+      const day = date.getDate()
+      return weekday === 0 || weekday === 6 || day === 13
+    },
     validateName(name) {
       const { $dirty, $error } = this.$v.form[name];
       return $dirty ? !$error : null;
